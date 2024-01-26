@@ -1,9 +1,11 @@
-import java.util.ArrayList;
+import java.util.ArrayList; 
+import java.io.FileWriter;
+import java.io.IOException;  // Import the IOException class to handle errors
+
 
 public class FindThePrimes {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis(); //start the runtime clock ticking
-        
         //range of numbers 1 - 100 000 000
         long begin = 1;
         long end = 100000000;
@@ -17,7 +19,7 @@ public class FindThePrimes {
             long firstNumber = begin + i * threadValueSize; // 1 + i * size gets you to that start place
             long lastNumber = (begin + (i+1) * threadValueSize) -1;
 
-            System.out.println("thread: " + i + "  Begin: " + firstNumber + "  end: " + lastNumber);
+            //System.out.println("thread: " + i + "  Begin: " + firstNumber + "  end: " + lastNumber);
             // define the 8 threads to run through the 8 sections
             Thread thread = new Thread(new PrimeSweep(firstNumber, lastNumber, allPrimes));
            //add each thread to the threads array
@@ -26,44 +28,50 @@ public class FindThePrimes {
     
 
     // Start all threads
-    for (Thread thread : threads) {
+    for (Thread thread: threads) {
         thread.start();
     }
 
     // Wait for all threads to finish
-    for (Thread thread : threads) {
+    for (Thread thread: threads) {
         try {
             thread.join();
-        } catch (InterruptedException e) {
+        } 
+        catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
         long totalNumberPrimes = allPrimes.size();
 
-        //sum uo the arraylist
+        //sum up the arraylist
         long sumOfPrimes = allPrimes.stream().mapToLong(Long::longValue).sum();
         long endTime = System.currentTimeMillis(); //stop the clock
 
         // Calculate execution time
         long runtime = endTime - startTime; //find runtime before printing
-
-        // Print results change to write to a file
-        System.out.println("Execution Time: " + runtime + " milliseconds");
-        System.out.println("Total Number of Primes Found: " + totalNumberPrimes);
-        System.out.println("Sum of All Primes Found: " + sumOfPrimes);
-       // System.out.println("Top Ten Maximum Primes: " + topTenPrimes);
+        //write to a file
+        try {
+            FileWriter output = new FileWriter("output.txt");
+            output.write("Execution Time: "  + runtime + " milliseconds\n");
+            output.write("Total Number of Primes Found: " + totalNumberPrimes + "\n");
+            output.write("Sum of All Primes Found: " + sumOfPrimes + "\n");
+            for (int i = Math.max((int)totalNumberPrimes - 10, 0); i < totalNumberPrimes; i++) {
+                output.write("Top Ten Maximum Primes " + i + ": " + (allPrimes.get(i))+ "\n");
+            }
+            output.close();
+          } 
+          catch (IOException e) {
+            e.printStackTrace();
+          }
     }
 
     //PrimeSweep Operations
     static class PrimeSweep implements Runnable {
-
         long begin;
         long end;
-
         ArrayList<Long> foundPrimesTotal;
-
-        //set the local varaibles based on input
+        //set the local variables based on input
         PrimeSweep(long begin, long end, ArrayList<Long> allPrimes) {
             this.begin = begin;
             this.end = end;
@@ -80,7 +88,6 @@ public class FindThePrimes {
         //function to execute the algoirthmn
         private ArrayList<Long> findPrimes(long begin, long end) {
             ArrayList<Long> foundPrimes = new ArrayList<>();
-            long totalPrimeNumbers = 0;
             
            
             //loop through the section, skip even numbers (optimized num*num)
@@ -88,8 +95,6 @@ public class FindThePrimes {
 
                 if(isPrime(num, end) == true){
                     foundPrimes.add(num);
-                    totalPrimeNumbers ++;
-                    
                 }
             }
 
