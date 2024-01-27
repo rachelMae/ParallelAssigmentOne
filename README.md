@@ -6,7 +6,10 @@ Once you are in the directory of the file type java FindThePrimes.java to run th
 
 Once I got the 8 threads running well, the focus of this problem was the prime checker. I spent a lot of time trying to optimize the division.
 I skipped the even numbers, excluded 0,1, and 2, and learned about the +6 rule with primes to cut down on speed.
-Unfortunately, despite these attempts, my runtime was still 45 secs when I wanted it to be under 30sec. 
+Unfortunately, despite these attempts, my runtime was still 42 seconds when I wanted it to be under 30 seconds. 
 Some research led me to the Sieve of Eratosthenes, which involves a different approach by marking numbers composite and assuming the rest are prime by taking each prime, multiplying it, and marking off the multiples.
 
-It was easy to find code that recorded runtime and used the size of the ArrayList to report how many primes there were. 
+I wrote code that recorded runtime and used the size of the ArrayList to report how many primes there were. I could sum the contents of the ArrayList with the built-in sum function. 
+To print the last 10 primes I used a loop to go through the last 10 in the ArrayList. I had to look up how to write to a file in Java but it was fairly simple to implement into my program. 
+I used a geektogeek article to learn how to write to a file in Java.
+
