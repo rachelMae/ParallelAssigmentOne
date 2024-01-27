@@ -90,7 +90,7 @@ public class FindThePrimes {
             ArrayList<Long> foundPrimes = new ArrayList<>();
             
            
-            //loop through the section, skip even numbers (optimized num*num)
+            //loop through the section, skip even numbers 
             for(long num = begin; num <= end; num += 2){
 
                 if(isPrime(num, end) == true){
