@@ -27,12 +27,12 @@ public class FindThePrimes {
         }
     
 
-    // Start all threads
+    // Start 8 threads
     for (Thread thread: threads) {
         thread.start();
     }
 
-    // Wait for all threads to finish
+    // Wait for 8 threads to complete
     for (Thread thread: threads) {
         try {
             thread.join();
@@ -54,10 +54,10 @@ public class FindThePrimes {
         try {
             FileWriter output = new FileWriter("output.txt");
             output.write("Execution Time: "  + runtime + " milliseconds\n");
-            output.write("Total Number of Primes Found: " + totalNumberPrimes + "\n");
-            output.write("Sum of All Primes Found: " + sumOfPrimes + "\n");
+            output.write("Total Number of Primes: " + totalNumberPrimes + "\n");
+            output.write("Sum of All Primes: " + sumOfPrimes + "\n");
             for (int i = Math.max((int)totalNumberPrimes - 10, 0); i < totalNumberPrimes; i++) {
-                output.write("Top Ten Maximum Primes " + i + ": " + (allPrimes.get(i))+ "\n");
+                output.write("Top Ten Primes " + i + ": " + (allPrimes.get(i))+ "\n");
             }
             output.close();
           } 
@@ -73,9 +73,9 @@ public class FindThePrimes {
         ArrayList<Long> foundPrimesTotal;
         //set the local variables based on input
         PrimeSweep(long begin, long end, ArrayList<Long> allPrimes) {
+            this.foundPrimesTotal = allPrimes;
             this.begin = begin;
             this.end = end;
-            this.foundPrimesTotal = allPrimes;
         }
 
         //run this
@@ -99,8 +99,6 @@ public class FindThePrimes {
             }
 
             return foundPrimes;
-            
-            
         }
         public static boolean isPrime(long num, long end) {
             // Iterate only up to end
